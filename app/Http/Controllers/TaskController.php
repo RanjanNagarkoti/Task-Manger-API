@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
@@ -33,22 +34,15 @@ class TaskController extends Controller
 
     public function update($id, Request $request)
     {
-        $checkAvailable = Task::findOrFail($id);
+        $data = $request->all();
+        $task = Task::findOrFail($id);
 
-        // if ($checkAvailable) {
-        //     $data = $request->all();
-
-        // $category = Category::find($id);
-
-        // $category->name = $request->name;
-        // $category->description = $request->description;
-
-        // $category->save();
-
-        return response()->json(["Message" => "Task updated sucessfully", 'data' => $request->all()], 200);
-        // } else {
-        //     return response()->json(["Message" => "Category not found"], 200);
-        // }
+        if ($task) {
+            $task->update($data);
+            return response()->json(["Message" => "Task updated sucessfully"], 200);
+        } else {
+            return response()->json(["Message" => "Category not found"], 200);
+        }
     }
 
     public function show($id)

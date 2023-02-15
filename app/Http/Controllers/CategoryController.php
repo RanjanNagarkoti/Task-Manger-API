@@ -33,22 +33,15 @@ class CategoryController extends Controller
     public function update($id, Request $request)
     {
         $data = $request->all();
-        $checkAvailable = Category::findOrFail($id);
+        $category = Category::findOrFail($id);
 
-        // if ($checkAvailable) {
-        //     $data = $request->all();
+        if ($category) {
+            $category->update($data);
 
-        // $category = Category::find($id);
-
-        // $category->name = $request->name;
-        // $category->description = $request->description;
-
-        // $category->save();
-
-        return response()->json(["Message" => "Category updated sucessfully", 'data' => $data], 200);
-        // } else {
-        //     return response()->json(["Message" => "Category not found"], 200);
-        // }
+            return response()->json(["Message" => "Category updated sucessfully"], 200);
+        } else {
+            return response()->json(["Message" => "Category not found"], 200);
+        }
     }
 
     public function show($id)
