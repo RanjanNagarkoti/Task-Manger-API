@@ -40,11 +40,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        return response()->json(['message' => "on check "]);
+        $request->user()->currentAccessToken()->delete();
 
-        $accessToken = Auth::user()->currentAccessToken();
-        // $accessToken->delete();
-
-        return response()->json(['message' => $accessToken]);
+        return response()->json(['message' => "Logged out"]);
     }
 }
